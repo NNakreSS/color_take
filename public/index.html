@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Take Color</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <div class="containers" id="imgContainer">
+        <img
+          src="https://i.pinimg.com/originals/00/db/2e/00db2e51ea28e1225dabbca572675797.jpg"
+          alt=""
+        />
+        <div id="palette">
+          <div id="left-buttons"></div>
+          <div id="colors">
+            </div>
+          <div id="right-buttons"></div>
+        </div>
+      </div>
+      <div id="main-right">
+        <div class="containers" id="colorsContainer">
+          <div id="head">🔴🟢🔵  <span>Dominant Color</span></div>
+          <div id="dominantColorBox"></div>
+          <div id="dominantColorRgba"></div>
+        </div>
+        <div class="containers" id="selectUrlImage">
+          <input id="urlImageInput" placeholder="Image Url"></input>
+          <button id="selectUrlButton">🌐</button>
+        </div>
+        <div class="containers" id="selectImg">
+          <button id="imgButton">Select File</button>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+    <script src="../take_color.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
