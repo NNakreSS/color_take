@@ -12,7 +12,7 @@
  */
 if (!pv) {
   var pv = {
-    map: function (array, f) {
+    map: function map(array, f) {
       var o = {};
       return f
         ? array.map(function (d, i) {
@@ -21,10 +21,10 @@ if (!pv) {
           })
         : array.slice();
     },
-    naturalOrder: function (a, b) {
+    naturalOrder: function naturalOrder(a, b) {
       return a < b ? -1 : a > b ? 1 : 0;
     },
-    sum: function (array, f) {
+    sum: function sum(array, f) {
       var o = {};
       return array.reduce(
         f
@@ -38,34 +38,34 @@ if (!pv) {
         0
       );
     },
-    max: function (array, f) {
+    max: function max(array, f) {
       return Math.max.apply(null, f ? pv.map(array, f) : array);
     },
   };
 }
 
 /**
- * Basic Javascript port of the MMCQ (modified median cut quantization)
- * algorithm from the Leptonica library (http://www.leptonica.com/).
- * Returns a color map you can use to map original pixels to the reduced
- * palette. Still a work in progress.
- * 
- * @author Nick Rabinowitz
- * @example
- 
-// array of pixels as [R,G,B] arrays
-var myPixels = [[190,197,190], [202,204,200], [207,214,210], [211,214,211], [205,207,207]
-                // etc
-                ];
-var maxColors = 4;
- 
-var cmap = MMCQ.quantize(myPixels, maxColors);
-var newPalette = cmap.palette();
-var newPixels = myPixels.map(function(p) { 
-    return cmap.map(p); 
-});
- 
- */
+   * Basic Javascript port of the MMCQ (modified median cut quantization)
+   * algorithm from the Leptonica library (http://www.leptonica.com/).
+   * Returns a color map you can use to map original pixels to the reduced
+   * palette. Still a work in progress.
+   * 
+   * @author Nick Rabinowitz
+   * @example
+   
+  // array of pixels as [R,G,B] arrays
+  var myPixels = [[190,197,190], [202,204,200], [207,214,210], [211,214,211], [205,207,207]
+                  // etc
+                  ];
+  var maxColors = 4;
+   
+  var cmap = MMCQ.quantize(myPixels, maxColors);
+  var newPalette = cmap.palette();
+  var newPixels = myPixels.map(function(p) { 
+      return cmap.map(p); 
+  });
+   
+   */
 var MMCQ = (function () {
   // private constants
   var sigbits = 5,
@@ -84,33 +84,31 @@ var MMCQ = (function () {
   function PQueue(comparator) {
     var contents = [],
       sorted = false;
-
     function sort() {
       contents.sort(comparator);
       sorted = true;
     }
-
     return {
-      push: function (o) {
+      push: function push(o) {
         contents.push(o);
         sorted = false;
       },
-      peek: function (index) {
+      peek: function peek(index) {
         if (!sorted) sort();
         if (index === undefined) index = contents.length - 1;
         return contents[index];
       },
-      pop: function () {
+      pop: function pop() {
         if (!sorted) sort();
         return contents.pop();
       },
-      size: function () {
+      size: function size() {
         return contents.length;
       },
-      map: function (f) {
+      map: function map(f) {
         return contents.map(f);
       },
-      debug: function () {
+      debug: function debug() {
         if (!sorted) sort();
         return contents;
       },
@@ -130,7 +128,7 @@ var MMCQ = (function () {
     vbox.histo = histo;
   }
   VBox.prototype = {
-    volume: function (force) {
+    volume: function volume(force) {
       var vbox = this;
       if (!vbox._volume || force) {
         vbox._volume =
@@ -140,7 +138,7 @@ var MMCQ = (function () {
       }
       return vbox._volume;
     },
-    count: function (force) {
+    count: function count(force) {
       var vbox = this,
         histo = vbox.histo;
       if (!vbox._count_set || force) {
@@ -162,7 +160,7 @@ var MMCQ = (function () {
       }
       return vbox._count;
     },
-    copy: function () {
+    copy: function copy() {
       var vbox = this;
       return new VBox(
         vbox.r1,
@@ -174,7 +172,7 @@ var MMCQ = (function () {
         vbox.histo
       );
     },
-    avg: function (force) {
+    avg: function avg(force) {
       var vbox = this,
         histo = vbox.histo;
       if (!vbox._avg || force) {
@@ -213,7 +211,7 @@ var MMCQ = (function () {
       }
       return vbox._avg;
     },
-    contains: function (pixel) {
+    contains: function contains(pixel) {
       var vbox = this,
         rval = pixel[0] >> rshift;
       gval = pixel[1] >> rshift;
@@ -240,21 +238,21 @@ var MMCQ = (function () {
     });
   }
   CMap.prototype = {
-    push: function (vbox) {
+    push: function push(vbox) {
       this.vboxes.push({
         vbox: vbox,
         color: vbox.avg(),
       });
     },
-    palette: function () {
+    palette: function palette() {
       return this.vboxes.map(function (vb) {
         return vb.color;
       });
     },
-    size: function () {
+    size: function size() {
       return this.vboxes.size();
     },
-    map: function (color) {
+    map: function map(color) {
       var vboxes = this.vboxes;
       for (var i = 0; i < vboxes.size(); i++) {
         if (vboxes.peek(i).vbox.contains(color)) {
@@ -263,7 +261,7 @@ var MMCQ = (function () {
       }
       return this.nearest(color);
     },
-    nearest: function (color) {
+    nearest: function nearest(color) {
       var vboxes = this.vboxes,
         d1,
         d2,
@@ -281,7 +279,7 @@ var MMCQ = (function () {
       }
       return pColor;
     },
-    forcebw: function () {
+    forcebw: function forcebw() {
       // XXX: won't  work yet
       var vboxes = this.vboxes;
       vboxes.sort(function (a, b) {
@@ -320,7 +318,6 @@ var MMCQ = (function () {
     });
     return histo;
   }
-
   function vboxFromPixels(pixels, histo) {
     var rmin = 1000000,
       rmax = 0,
@@ -345,10 +342,8 @@ var MMCQ = (function () {
     });
     return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
   }
-
   function medianCutApply(histo, vbox) {
     if (!vbox.count()) return;
-
     var rw = vbox.r2 - vbox.r1 + 1,
       gw = vbox.g2 - vbox.g1 + 1,
       bw = vbox.b2 - vbox.b1 + 1,
@@ -407,7 +402,6 @@ var MMCQ = (function () {
     partialsum.forEach(function (d, i) {
       lookaheadsum[i] = total - d;
     });
-
     function doCut(color) {
       var dim1 = color + "1",
         dim2 = color + "2",
@@ -440,7 +434,6 @@ var MMCQ = (function () {
     // determine the cut planes
     return maxw == rw ? doCut("r") : maxw == gw ? doCut("g") : doCut("b");
   }
-
   function quantize(pixels, maxcolors) {
     // short-circuit
     if (!pixels.length || maxcolors < 2 || maxcolors > 256) {
@@ -450,17 +443,8 @@ var MMCQ = (function () {
 
     // XXX: check color content and convert to grayscale if insufficient
 
-    var histo = getHisto(pixels),
-      histosize = 1 << (3 * sigbits);
-
-    // check that we aren't below maxcolors already
-    var nColors = 0;
-    histo.forEach(function () {
-      nColors++;
-    });
-    if (nColors <= maxcolors) {
-      // XXX: generate the new colors from the histo and return
-    }
+    var histo = getHisto(pixels);
+    histo.forEach(function () {});
 
     // get the beginning vbox from the colors
     var vbox = vboxFromPixels(pixels, histo),
@@ -472,10 +456,15 @@ var MMCQ = (function () {
     // inner function to do the iteration
 
     function iter(lh, target) {
-      var ncolors = 1,
+      var ncolors = lh.size(),
         niters = 0,
         vbox;
       while (niters < maxIterations) {
+        if (ncolors >= target) return;
+        if (niters++ > maxIterations) {
+          // console.log("infinite loop; perhaps too few pixels!");
+          return;
+        }
         vbox = lh.pop();
         if (!vbox.count()) {
           /* just put it back */
@@ -487,7 +476,6 @@ var MMCQ = (function () {
         var vboxes = medianCutApply(histo, vbox),
           vbox1 = vboxes[0],
           vbox2 = vboxes[1];
-
         if (!vbox1) {
           // console.log("vbox1 not defined; shouldn't happen!");
           return;
@@ -497,11 +485,6 @@ var MMCQ = (function () {
           /* vbox2 can be null */
           lh.push(vbox2);
           ncolors++;
-        }
-        if (ncolors >= target) return;
-        if (niters++ > maxIterations) {
-          // console.log("infinite loop; perhaps too few pixels!");
-          return;
         }
       }
     }
@@ -519,20 +502,19 @@ var MMCQ = (function () {
     }
 
     // next set - generate the median cuts using the (npix * vol) sorting.
-    iter(pq2, maxcolors - pq2.size());
+    iter(pq2, maxcolors);
 
     // calculate the actual colors
     var cmap = new CMap();
     while (pq2.size()) {
       cmap.push(pq2.pop());
     }
-
     return cmap;
   }
-
   return {
     quantize: quantize,
   };
 })();
+var quantize = MMCQ.quantize;
 
-// module.exports = MMCQ.quantize;
+//   export { quantize as default };
