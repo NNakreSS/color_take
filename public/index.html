@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
     <title>Take Color</title>
@@ -11,29 +18,28 @@
     <header></header>
     <main>
       <div class="containers" id="imgContainer">
-        <img
-          src="https://i.pinimg.com/originals/00/db/2e/00db2e51ea28e1225dabbca572675797.jpg"
-          alt=""
-        />
+        <img src="" />
         <div id="palette">
           <div id="left-buttons"></div>
-          <div id="colors">
-            </div>
+          <div id="colors"></div>
           <div id="right-buttons"></div>
         </div>
       </div>
       <div id="main-right">
         <div class="containers" id="colorsContainer">
-          <div id="head">🔴🟢🔵  <span>Dominant Color</span></div>
+          <div id="head">🔴🟢🔵 <span>Baskın Renk</span></div>
           <div id="dominantColorBox"></div>
           <div id="dominantColorRgba"></div>
         </div>
-        <div class="containers" id="selectUrlImage">
-          <input id="urlImageInput" placeholder="Image Url"></input>
-          <button id="selectUrlButton">🌐</button>
+        <div class="containers" id="selectImageColor">
+          <button title="Görselden Renk Seç" id="startColorPicker">
+            <i class="fa-solid fa-crosshairs"></i>
+          </button>
+          <div id="pickColor"></div>
+          <div id="selectColor">rgb(234,234,23)</div>
         </div>
         <div class="containers" id="selectImg">
-          <button id="imgButton">Select File</button>
+          <button id="imgButton">Dosya Seç</button>
         </div>
       </div>
     </main>

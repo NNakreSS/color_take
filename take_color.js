@@ -3,17 +3,15 @@ class TakeColor {
   #ctx = this.#canvas.getContext("2d");
   #colorDensisty = {};
 
-  async mainColor(img) {
-    const palette = await this.colorPalette(img, 2).then((color) => color);
-    return palette[0];
-  }
-
   async colorPalette(img, colorCount = 6) {
-    let colors = this.#getUniqueColors(await this.#getColors(img));
-    const cmap = await quantize(colors, colorCount);
+    const colors = this.#getUniqueColors(await this.#getColors(img));
+    const cmap = quantize(colors, colorCount);
     const palette = cmap ? cmap.palette() : null;
     return palette;
   }
+
+  mainColor = async (img) =>
+    this.colorPalette(img, 2).then((colors) => colors[0]);
 
   async #getColors(img) {
     this.#canvas.width = img.width;
@@ -36,6 +34,7 @@ class TakeColor {
 
   async #extractColors(imgData) {
     const colors = [];
+    this.#colorDensisty = {};
     for (let i = 0; i < imgData.length; i += 10) {
       const offset = i * 4;
       const r = imgData[offset],
